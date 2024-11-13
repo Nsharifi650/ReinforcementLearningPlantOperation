@@ -64,35 +64,6 @@ class TheEnvironment(gym.Env):
         self.EnergyStorage = self.internal_states_initial_value['Initial_storage']
 
         self.Total_reward = 0
-    # def ObservationSpace(self):
-    #     """getting the current state of the environment"""
-
-    #     observation_frame = []
-
-    #     # EXTERNAL DATA
-    #     for variable in self.external_conds_data.columns:
-    #         df = self.external_conds_data[variable]
-
-    #         if self.current_step < len(df):
-    #             # print(f"column: {variable}, value: {df.iloc[self.current_step]}, type: {type(df.iloc[self.current_step])}")
-    #             observation_frame.append(df.iloc[self.current_step])
-    #         # if the current step is longer than the dataframe
-    #         # then add the last given data
-    #         else:
-    #             observation_frame.append(df.iloc[-1])
-
-    #     # INTERNAL STATES
-    #     observation_frame.append(self.current_power_output)
-    #     observation_frame.append(self.fuel_consumption_rate)
-    #     observation_frame.append(self.current_fuel_mixture_ratio)
-    #     observation_frame.append(self.emissions_levels)
-    #     observation_frame.append(self.current_operating_costs)
-    #     observation_frame.append(self.emissions_quota)
-    #     observation_frame.append(self.hours_main_turbine_since_maintenance)
-    #     observation_frame.append(self.hours_secondary_turbine_since_maintenance)
-    #     observation_frame.append(self.EnergyStorage)
-
-    #     return np.array(observation_frame)
 
     def ObservationSpace(self):
         """getting the current state of the environment"""
@@ -193,7 +164,6 @@ class TheEnvironment(gym.Env):
         base_power = self.main_turbine_output*main_T_eff + self.secondary_turbine_output*second_T_eff
         power_generated = base_power*self.generator_excitation
 
-        
         if self.current_step < self.max_steps:
             # print(f"current step: {self.current_step}, max steps: {self.max_steps}, len of data: {len(self.external_conds_data['demand'])}")
             power_demand = self.external_conds_data['demand'].iloc[self.current_step+1]
@@ -236,7 +206,7 @@ class TheEnvironment(gym.Env):
 
         self.emissions_quota -= self.emissions_levels
 
-        if self.current_step % 24*28 == 0: # i.e. every 4 weeks reset emissions quota
+        if self.current_step % (24*28) == 0: # i.e. every 4 weeks reset emissions quota
             self.emissions_quota = self.internal_states_initial_value['emissions_quota']
 
 

@@ -21,14 +21,13 @@ class AgentConfig(BaseModel):
 class PPOAgent:
     def __init__(self, config: AgentConfig):
         self.callback = PolicyGradientLossCallback()
-        self.Agent = DDPG(
+        self.Agent = PPO(
             "MlpPolicy", 
             config.environment,
             verbose = 1,
-            learning_rate=1e-4,
-            gamma=0.95) # batch_size=256
-        # self.Agent = DDPG("MlpPolicy", config.environment,verbose = 1)
-        # self.Agent = TD3("MlpPolicy", config.environment,verbose = 1)
+            learning_rate=1e-5,
+            gamma=0.99) # batch_size=256
+
         self.config = config
 
     def train(self):
@@ -77,6 +76,7 @@ class PPOAgent:
         dir = "src/training/saved_trained_models/"
         model_name = f"PPOAgent_Steps_{self.config.train_timesteps}.zip"
         model_path = os.path.join(dir, model_name)
+        print("model path", model_path)
         if os.path.exists(model_path):    
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
             self.Agent.load(model_path, device = device)
