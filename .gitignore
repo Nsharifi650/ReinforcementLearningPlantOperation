@@ -1,0 +1,6 @@
+#git ignore files 
+
+# data
+*.csv
+
+*.zip

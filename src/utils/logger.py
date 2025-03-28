@@ -2,8 +2,11 @@ import logging
 import sys
 from pathlib import Path
 
-def setup_logger(name: str, log_file: str | Path | None = None, level = logging.INFO):
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+def setup_logger(name: str, log_file: str | Path | None = None, level=logging.INFO):
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(formatter)
 
@@ -18,5 +21,5 @@ def setup_logger(name: str, log_file: str | Path | None = None, level = logging.
 
     return logger
 
-logger = setup_logger('ReinformentLearningForPlantOperation')
 
+logger = setup_logger("ReinformentLearningForPlantOperation")
